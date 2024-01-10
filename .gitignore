@@ -22,3 +22,5 @@ manifest/
 .dockerignore
 
 private/
+
+.nova
