@@ -2,6 +2,7 @@ import psycopg2
 from configparser import ConfigParser
 import argparse
 
+# https://www.postgresqltutorial.com/postgresql-python/connect/
 def config(filename='database.ini', section='postgresql'):
 	# create a parser
 	parser = ConfigParser()
