@@ -2,6 +2,13 @@ import psycopg2
 from configparser import ConfigParser
 import argparse
 
+# sslrootcert=system
+# sslmode=verify-full
+# In this case sslmode specifies that SSL is required.
+#
+# To perform server certificate verification you can set sslmode to verify-full or verify-ca. You need to supply the path to the server certificate in sslrootcert. Also set the sslcert and sslkey values to your client certificate and key respectively.
+
+
 # https://www.postgresqltutorial.com/postgresql-python/connect/
 def config(filename='database.ini', section='postgresql'):
 	# create a parser
@@ -39,7 +46,8 @@ if __name__ == "__main__":
 		# display the PostgreSQL database server version
 		db_version = cur.fetchone()
 		print(db_version)
-		cur.execute('SELECT COUNT(*) FROM states')
+		cur.execute('SELECT COUNT(*) FROM auth_user')
+                # 'SELECT COUNT(*) FROM states'
 		count = cur.fetchone()
 		print("Test Query: %s rows" % count)
 			# close the communication with the PostgreSQL
