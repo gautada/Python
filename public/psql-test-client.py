@@ -42,11 +42,10 @@ if __name__ == "__main__":
 		# execute a statement
 		print('PostgreSQL database version:', end=" ")
 		cur.execute('SELECT version()')
-		
 		# display the PostgreSQL database server version
 		db_version = cur.fetchone()
 		print(db_version)
-		cur.execute('SELECT COUNT(*) FROM auth_user')
+		cur.execute("SELECT COUNT(*) FROM states")
                 # 'SELECT COUNT(*) FROM states'
 		count = cur.fetchone()
 		print("Test Query: %s rows" % count)
