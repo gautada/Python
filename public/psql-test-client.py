@@ -43,8 +43,13 @@ if __name__ == "__main__":
 		print('PostgreSQL database version:', end=" ")
 		cur.execute('SELECT version()')
 		# display the PostgreSQL database server version
-		db_version = cur.fetchone()
+		db_version = cur.fetchone()[0]
 		print(db_version)
+		print('PostgreSQL SSL:', end=" ")
+		cur.execute('SHOW ssl')
+		# display the PostgreSQL ssl
+		db_ssl = cur.fetchone()[0]
+		print(db_ssl)
 		cur.execute("SELECT COUNT(*) FROM states")
                 # 'SELECT COUNT(*) FROM states'
 		count = cur.fetchone()

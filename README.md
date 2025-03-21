@@ -13,7 +13,8 @@ port = 5432
 database = postgres
 user = postgres
 password = mypassword
-sslmode = require
+sslmode = verify-full
+sslrootcert=/etc/ssl/cert.pem
 ```
 
 Test Query - Goal is that it should work on any and all databases
