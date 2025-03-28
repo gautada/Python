@@ -24,4 +24,5 @@ manifest/
 private/
 .nova
 database.ini
+.venv
 
