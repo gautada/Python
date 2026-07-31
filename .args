@@ -1,0 +1,3 @@
+DEBIAN_IMAGE=docker.io/gautada/debian:13.6
+UV_IMAGE=ghcr.io/astral-sh/uv:0.11.6
+GITHUB_SIGNATURE=

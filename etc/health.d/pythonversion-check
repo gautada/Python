@@ -1,0 +1,24 @@
+#!/bin/sh
+# pythonversion-check - Health check: confirms the Python interpreter resolves
+# and runs, both as `python3` and as `python` (via python-is-python3).
+#
+# Pass (exit 0): both commands run and report a version.
+# Fail (exit 1): either command is missing or fails to run.
+#
+# This check needs no network access and no runtime configuration, so it is
+# valid for liveness, readiness, startup, and test alike.
+
+PYTHON3_VERSION=$(python3 --version 2>&1)
+if [ $? -ne 0 ]; then
+  echo "pythonversion-check: python3 --version failed: $PYTHON3_VERSION"
+  exit 1
+fi
+
+PYTHON_VERSION=$(python --version 2>&1)
+if [ $? -ne 0 ]; then
+  echo "pythonversion-check: python --version failed: $PYTHON_VERSION"
+  exit 1
+fi
+
+echo "pythonversion-check: $PYTHON3_VERSION (python -> $PYTHON_VERSION)"
+exit 0
