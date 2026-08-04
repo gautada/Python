@@ -87,6 +87,7 @@ from `debian`.
 ## Containerfile requirements
 
 1. **Base and pinning**, same shape as `debian`'s own `ARG IMAGE_VERSION`:
+
    ```dockerfile
    ARG DEBIAN_IMAGE=docker.io/gautada/debian:13.6
    ARG UV_IMAGE=ghcr.io/astral-sh/uv:0.11.6
@@ -94,6 +95,7 @@ from `debian`.
    FROM ${UV_IMAGE} AS uv
    FROM ${DEBIAN_IMAGE}
    ```
+
    Both ARGs get defaults recorded in `.args`, same as `debian`'s pattern.
 
 2. **OCI labels** — same four/five `LABEL org.opencontainers.image.*` lines
@@ -115,11 +117,13 @@ from `debian`.
 
 4. **`uv` / `uvx`** — copied in from the pinned `uv` image stage, same
    mechanism `hermes` already uses:
+
    ```dockerfile
    COPY --from=uv /uv /uvx /usr/local/bin/
    ```
 
 5. **Environment** — set the standard Python container hygiene vars:
+
    ```dockerfile
    ENV PYTHONUNBUFFERED=1 \
        PYTHONDONTWRITEBYTECODE=1 \
@@ -174,6 +178,7 @@ license), plus two sections `debian`'s README doesn't need:
   equivalent for local use.
 - **Using this image as a build stage** — a concrete two-stage example
   Containerfile for a downstream project, e.g.:
+
   ```dockerfile
   FROM docker.io/gautada/python:TAG AS build
   RUN apt-get update \
@@ -188,6 +193,7 @@ license), plus two sections `debian`'s README doesn't need:
   COPY --from=build /opt/app/.venv /opt/app/.venv
   ENV PATH=/opt/app/.venv/bin:$PATH
   ```
+
   This is the pattern `hermes` should migrate to once this image exists —
   call that out explicitly as a follow-on, not part of this repo's scope.
 

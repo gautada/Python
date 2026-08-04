@@ -13,9 +13,11 @@ Requires:
 Usage:
     python ~/scripts/deployment-namespace.py <deployment-name>
 """
-import subprocess
-import json
+
 import argparse
+import json
+import subprocess
+
 
 def get_namespace(name):
     cmd = ["kubectl", "get", "-A", "deployment", "-o", "json"]
@@ -34,8 +36,8 @@ def get_namespace(name):
     return None
 
 
-parser = argparse.ArgumentParser(description='Get namespace for a deployment')
-parser.add_argument('name', type=str, help='Name of the deployment')
+parser = argparse.ArgumentParser(description="Get namespace for a deployment")
+parser.add_argument("name", type=str, help="Name of the deployment")
 args = parser.parse_args()
 
 namespace = get_namespace(args.name)
