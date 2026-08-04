@@ -1,0 +1,37 @@
+# Documentation only. Not built by this repo's CI, not a real application -
+# a concrete illustration of the build-stage/run-stage split any downstream
+# project building on `gautada/python` is expected to follow. See the
+# parent README's "Using this image as a build stage" section.
+
+ARG PYTHON_IMAGE=docker.io/gautada/python:latest
+
+# ╭――――――――――――――――――╮
+# │ BUILD STAGE        │
+# ╰――――――――――――――――――╯
+# Everything needed to fetch and assemble the app lives only here:
+# `install-build-deps` (already on PATH, inherited from gautada/python) adds
+# build-essential, git, pkg-config, curl, ca-certificates for this stage
+# only - none of it survives into the run stage below.
+FROM ${PYTHON_IMAGE} AS build
+RUN install-build-deps
+
+ARG APP_REPOSITORY=https://github.com/example/app.git
+ARG APP_REF=main
+
+WORKDIR /opt/app
+RUN git clone --filter=blob:none "${APP_REPOSITORY}" . \
+ && git checkout "${APP_REF}" \
+ && uv sync --frozen --no-install-project
+
+# ╭――――――――――――――――――╮
+# │ RUN STAGE          │
+# ╰――――――――――――――――――╯
+# Starts clean from the same base image - no build-essential, no git, no
+# compiler toolchain, no source checkout, no apt cache. Only the built
+# virtualenv crosses the boundary via COPY --from=build. This is the whole
+# point of the split: the run stage stays exactly as small as
+# `gautada/python` itself, plus one .venv.
+FROM ${PYTHON_IMAGE}
+COPY --from=build /opt/app/.venv /opt/app/.venv
+ENV PATH=/opt/app/.venv/bin:$PATH
+WORKDIR /opt/app

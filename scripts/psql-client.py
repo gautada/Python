@@ -1,4 +1,23 @@
 #!/usr/bin/env python3
+"""
+psql-client.py - PostgreSQL connectivity/version check client.
+
+Purpose:
+    Connects to a PostgreSQL server using either a ~/.pg_service.conf
+    section or explicit --host/--user/etc flags, then prints the server
+    version and SSL status. A quick "can I reach this database, and with
+    what SSL settings" check, not a general query tool -- though --sql lets
+    you run one statement in a pinch (result is not currently printed, see
+    the commented-out block below).
+
+Requires:
+    psycopg2 (not bundled in this image)
+
+Usage:
+    uv run --with psycopg2-binary ~/scripts/psql-client.py --host db.example.com
+    # or, with psycopg2 already available on PATH:
+    python ~/scripts/psql-client.py --config ~/.pg_service.conf --section postgres
+"""
 
 import psycopg2
 from configparser import ConfigParser
@@ -41,7 +60,7 @@ if __name__ == "__main__":
 	defaults['sslcert'] = os.path.expanduser('~/.postgresql/client.cert')
 	defaults['sslkey'] = os.path.expanduser('~/.postgresql/client.key')
 	defaults['sslrootcert'] = os.path.expanduser('/etc/ssl/cert.pem')
-	
+
 	parser = argparse.ArgumentParser(description='Connect to PostgreSQL and run basic queries.')
 	parser.add_argument('--config', type=str, default=defaults['config'], help='Path to database config file')
 	parser.add_argument('--section', type=str, default=defaults['section'], help='Section name in config file (overrides PGSESSION)')
@@ -58,7 +77,7 @@ if __name__ == "__main__":
 	parser.add_argument('--sslcert', type=str, default=config['sslcert'], help='SSL Certificate(file path) -- Certificate authorization certificate')
 	parser.add_argument('--sslkey', type=str, default=config['sslkey'], help='SSL Private Key(file path) -- Certificate authorization private key')
 	parser.add_argument('--sslrootcert', type=str, default=config['sslrootcert'], help='SSL Public Certificates(file path) -- OS certificate list')
-	
+
 	parser.add_argument('--sql', type=str, default="", help='SQL code to execute')
 
 	args = parser.parse_args()
@@ -73,10 +92,10 @@ if __name__ == "__main__":
 		# connect to the PostgreSQL server
 		print('Connecting to the PostgreSQL database...')
 		conn = psycopg2.connect(**config)
-		
+
 		# create a cursor
 		cur = conn.cursor()
-		
+
 		# execute a statement
 		print('PostgreSQL database version:', end=" ")
 		cur.execute('SELECT version()')
@@ -88,7 +107,7 @@ if __name__ == "__main__":
 		# display the PostgreSQL ssl
 		db_ssl = cur.fetchone()[0]
 		print(db_ssl)
-		
+
 		"""if 0 < len((sql):
 			cur.execute(sql)  # 'SELECT COUNT(*) FROM states'
 			count = cur.fetchone()

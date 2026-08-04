@@ -1,8 +1,13 @@
 # Build Prompt: `gautada/python` base container
 
-Status: **draft for review** — this describes what to build, not the build itself.
-Nothing in `Containerfile` form exists yet; this document is the spec to approve
-before that work starts.
+Status: **superseded, kept for historical context.** The `Containerfile` now
+exists and was built from this spec, but [`consolidation-directive.md`](consolidation-directive.md)
+overrides this document's guidance on two points: version pinning (this doc
+pins `DEBIAN_IMAGE`/`UV_IMAGE`; the directive drops pinning in favor of
+`:latest`) and the CI/CD workflow source (this doc copies the older
+per-job wiring from `hermes`; the directive copies the newer, simpler
+harness from `gautada/cicd`'s own `.github/workflows/container.yaml`
+directly). Read the directive for what actually shipped.
 
 ## Mission
 

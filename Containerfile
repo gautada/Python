@@ -1,5 +1,5 @@
-ARG DEBIAN_IMAGE=docker.io/gautada/debian:13.6
-ARG UV_IMAGE=ghcr.io/astral-sh/uv:0.11.6
+ARG DEBIAN_IMAGE=docker.io/gautada/debian:latest
+ARG UV_IMAGE=ghcr.io/astral-sh/uv:latest
 
 FROM ${UV_IMAGE} AS uv
 FROM ${DEBIAN_IMAGE} AS python
@@ -61,6 +61,24 @@ RUN chmod 0755 /usr/bin/container-version
 COPY etc/health.d/pythonversion-check /etc/health.d/pythonversion-check
 COPY etc/health.d/uv-check /etc/health.d/uv-check
 RUN chmod 0755 /etc/health.d/pythonversion-check /etc/health.d/uv-check
+
+# ╭――――――――――――――――――╮
+# │ BUILD DEPENDENCIES │
+# ╰――――――――――――――――――╯
+# Not installed here - just placed on PATH so a downstream build stage can
+# `RUN install-build-deps` without a COPY step of its own. Never invoked in
+# this image itself; see README: "Using this image as a build stage".
+COPY bin/install-build-deps /usr/local/bin/install-build-deps
+RUN chmod 0755 /usr/local/bin/install-build-deps
+
+# ╭――――――――――――――――――╮
+# │ SCRIPTS            │
+# ╰――――――――――――――――――╯
+# A small set of ready-to-run reference scripts, owned by the inherited
+# `debian` user. Some need a dependency this image doesn't ship (see each
+# script's own header comment for the `uv run --with ...` workaround) -
+# that's deliberate, not an oversight; see README: "Scripts".
+COPY --chown=debian:debian scripts/*.py /home/debian/scripts/
 
 # ╭――――――――――――――――――╮
 # │ CONTAINER          │
