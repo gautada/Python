@@ -1,6 +1,6 @@
 # python
 
-A small, opinionated Python base container image for the gautada container
+A small, opinionated Python base container image for a container
 fleet, built on top of [`gautada/debian`](https://github.com/gautada/debian).
 
 It has exactly three jobs:
