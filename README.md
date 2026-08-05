@@ -92,7 +92,7 @@ Both work because the container stays alive under the inherited
 
 ## Scripts
 
-A small set of reference scripts ship under `~/scripts/` (`/home/debian/scripts/`
+A small set of reference scripts ship under `~/scripts/` (`/home/monty/scripts/`
 in the container), each with a header comment describing its purpose and
 usage:
 

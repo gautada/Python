@@ -32,7 +32,7 @@ RUN apt-get update \
 # ╭――――――――――――――――――――╮
 # │ USER               │
 # ╰――――――――――――――――――――╯
-# Rename the base debian user to homepage.
+# Rename the base debian user to container based user.
 # Follows the same pattern as other gautada containers.
 ARG USER=monty
 RUN /usr/sbin/usermod -l $USER debian \
