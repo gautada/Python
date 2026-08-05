@@ -1,0 +1,21 @@
+#!/bin/sh
+# uv-check - Health check: confirms uv and uvx resolve and run.
+#
+# Pass (exit 0): both commands run and report a version.
+# Fail (exit 1): either command is missing or fails to run.
+#
+# This check needs no network access and no runtime configuration, so it is
+# valid for liveness, readiness, startup, and test alike.
+
+if ! UV_VERSION=$(uv --version 2>&1); then
+  echo "uv-check: uv --version failed: $UV_VERSION"
+  exit 1
+fi
+
+if ! UVX_VERSION=$(uvx --version 2>&1); then
+  echo "uv-check: uvx --version failed: $UVX_VERSION"
+  exit 1
+fi
+
+echo "uv-check: $UV_VERSION / $UVX_VERSION"
+exit 0

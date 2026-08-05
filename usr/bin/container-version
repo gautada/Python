@@ -1,0 +1,9 @@
+#!/bin/sh
+#
+# This shell script is part of the version mechanism of the base container. This
+# file can and should be overridden by the downstream container to provide the
+# specific software running in the container should simply print a clean version
+# number to stdout.
+
+# Print the Python version number
+python3 --version | awk '{print $2}'

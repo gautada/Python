@@ -1,0 +1,27 @@
+#!/bin/sh
+# install-build-deps - Installs the broad build-time dependency set this
+#                       image deliberately leaves out of the shared base:
+#                       compilers, git, and the usual staged-build tooling.
+#
+# Already on PATH in this image (see Containerfile: "SCRIPTS"), so a
+# downstream build stage just needs to run it - no COPY required. Intended
+# for the *build* stage only, never the final run stage - see README:
+# "Using this image as a build stage" and
+# examples/downstream-build/Containerfile for the full pattern.
+#
+#   FROM docker.io/gautada/python:TAG AS build
+#   RUN install-build-deps
+#
+# build-essential - compilers and headers for native extensions
+# git             - source checkouts
+# pkg-config      - native library discovery, needed by some wheels
+# curl            - fetching things a build script needs at build time
+# ca-certificates  - TLS trust for curl/git over https
+
+set -e
+
+apt-get update
+apt-get install --yes --no-install-recommends \
+        build-essential git pkg-config curl ca-certificates
+apt-get clean
+rm -rf /var/lib/apt/lists/*
