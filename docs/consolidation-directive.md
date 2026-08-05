@@ -85,7 +85,7 @@ possible, nothing else.
 Move and rename for clarity (kebab-case, purpose-first names):
 
 | From | To | Notes |
-|---|---|---|
+| --- | --- | --- |
 | `public/flask-hello-world.py` | `scripts/flask-hello-world.py` | Name's already clear, keep it. |
 | `public/namespace.py` | `scripts/deployment-namespace.py` | "namespace" alone doesn't say what it does — it looks up a deployment's k8s namespace by name. |
 | `public/psql-test-client.py` | `scripts/psql-client.py` | Drop "test" — it's a real connectivity/version-check client, not a test harness. |
