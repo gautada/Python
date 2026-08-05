@@ -78,7 +78,7 @@ RUN chmod 0755 /usr/local/bin/install-build-deps
 # `debian` user. Some need a dependency this image doesn't ship (see each
 # script's own header comment for the `uv run --with ...` workaround) -
 # that's deliberate, not an oversight; see README: "Scripts".
-COPY --chown=debian:debian scripts/*.py /home/debian/scripts/
+# COPY --chown=debian:debian scripts/*.py /home/debian/scripts/
 
 # ╭――――――――――――――――――╮
 # │ CONTAINER          │
