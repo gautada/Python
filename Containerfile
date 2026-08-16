@@ -38,7 +38,8 @@ ARG USER=monty
 RUN /usr/sbin/usermod -l $USER debian \
  && /usr/sbin/usermod -d /home/$USER -m $USER \
  && /usr/sbin/groupmod -n $USER debian \
- && /bin/echo "$USER:$USER" | /usr/sbin/chpasswd
+ && PASSWORD="$(openssl rand -base64 32 | tr -dc 'A-Za-z0-9' | head -c 24)" \
+ && printf '%s:%s\n' "$USER" "$PASSWORD" | /usr/sbin/chpasswd
 
 # ╭――――――――――――――――――╮
 # │ UV               │
