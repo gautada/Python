@@ -26,6 +26,7 @@ LABEL org.opencontainers.image.license="Debian Free Software Guidelines (DFSG)"
 RUN apt-get update \
  && apt-get install --yes --no-install-recommends \
             python3 python3-venv python-is-python3 \
+ && apt-get upgrade --yes \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
