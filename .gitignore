@@ -21,8 +21,16 @@ manifest/
 # symlink to this files `ln -s .gitignore .dockerignore`
 .dockerignore
 
-private/
-.nova
-database.ini
-.venv
-
+# The files are generally for container development. The linters should 
+# generally come from the templates of cicd.
+.env
+.flake8
+.hadolint.yaml
+.htmlhintrc
+.jscpd.json
+.markdownlint.yaml
+.pre-commit-config.yaml
+.shellcheckrc
+.sqlfluff
+.yamllint.yaml
+pyproject.toml
